@@ -1,7 +1,5 @@
-import { Button, Container, Flex, Heading, Text } from "@chakra-ui/react";
+import { Button, Flex, Heading } from "@chakra-ui/react";
 import { Link } from "wouter";
-import React from "react";
-import Form from "./Form";
 
 const Home = () => {
   return (
@@ -12,7 +10,7 @@ const Home = () => {
       justifyContent="center"
     >
       <Heading size="lg" color="brand.600" textAlign="center" mb="10">
-        We've created a quiz which can answer this for you!
+        We've created a quiz that can answer this for you!
       </Heading>
       <Link href="/questions">
         <Button colorScheme="brand">Take the quiz now!</Button>

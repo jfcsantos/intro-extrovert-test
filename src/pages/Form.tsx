@@ -1,20 +1,12 @@
-import {
-  Button,
-  Container,
-  Flex,
-  Heading,
-  Link,
-  Radio,
-  RadioGroup,
-  Spinner,
-  Text,
-} from "@chakra-ui/react";
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { usePersonalityForm } from "../model/hooks";
+import { useEffect, useMemo, useState } from "react";
+import { Container, Flex, Heading, Spinner } from "@chakra-ui/react";
+import { usePersonalityForm } from "../model/context";
 import { FormValues } from "../model/types";
+import FormQuestion from "../components/FormQuestion";
+import FormControls from "../components/FormControls";
 
 const Form = () => {
-  const { questions, numQuestions, answers, submitAnswers } =
+  const { questions, answers, numQuestions, loading, submitAnswers } =
     usePersonalityForm();
 
   const [questionNum, setQuestionNum] = useState(0);
@@ -24,8 +16,12 @@ const Form = () => {
     submitAnswers(formValues);
   }, [questionNum]);
 
-  if (!questions) {
+  if (loading) {
     return <Spinner />;
+  }
+
+  if (!questions) {
+    return <Heading>Something went wrong</Heading>;
   }
 
   return (
@@ -34,58 +30,32 @@ const Form = () => {
         Question {questionNum + 1} of {numQuestions}
       </Heading>
       <Flex direction="column" bg="brand.200" p="10">
-        <Heading size="md" color="brand.600" mb="4">
-          {questions[questionNum].question}
-        </Heading>
-        <RadioGroup
-          ml="5"
+        <FormQuestion
           value={formValues[questionNum] || -1}
+          question={questions[questionNum]}
           onChange={(v) =>
             setFormValues({
               ...formValues,
               [questionNum]: v,
             })
           }
-        >
-          {questions[questionNum].answers.map((v, i) => {
-            return (
-              <Radio
-                h="10"
-                mb="2"
-                borderColor="brand.600"
-                colorScheme="brand"
-                key={i}
-                value={`${String.fromCharCode(i + 65)}`}
-              >
-                <Text color="brand.500">{v}</Text>
-              </Radio>
-            );
-          })}
-        </RadioGroup>
-        <Flex justifyContent="flex-start" mt="2em">
-          {questionNum > 0 && (
-            <Button variant="outline" w="6em" mx="2" onClick={() => setQuestionNum(questionNum - 1)}>
-              Previous
-            </Button>
-          )}
-          {questionNum < numQuestions - 1 && (
-            <Button w="6em" mx="2" onClick={() => setQuestionNum(questionNum + 1)}>
-              Next
-            </Button>
-          )}
-          {questionNum === numQuestions - 1 &&
-            Object.values(formValues).length === numQuestions && (
-              <Button mw="6em" onClick={() => submitAnswers(formValues, true)}>
-                Submit answers
-              </Button>
-            )}
-        </Flex>
+        />
+        <FormControls
+          onPrev={
+            questionNum > 0 ? () => setQuestionNum(questionNum - 1) : undefined
+          }
+          onNext={
+            questionNum < numQuestions - 1
+              ? () => setQuestionNum(questionNum + 1)
+              : undefined
+          }
+          onSubmit={
+            questionNum === numQuestions - 1
+              ? () => submitAnswers(formValues, true)
+              : undefined
+          }
+        />
       </Flex>
-      <Link href="/">
-        <Button mt="4em" width="100%">
-          Take me Home
-        </Button>
-      </Link>
     </Container>
   );
 };

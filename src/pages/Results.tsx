@@ -1,9 +1,21 @@
-import { Container, Flex, Heading, Text } from "@chakra-ui/react";
-import { usePersonalityForm } from "../model/hooks";
+import { Button, Flex, Heading, Spinner, Text } from "@chakra-ui/react";
+import { useEffect } from "react";
+import { Link, useLocation } from "wouter";
+import { usePersonalityForm } from "../model/context";
 
 const Results = () => {
-  const { questions, numQuestions, answers, finalResults, submitAnswers } =
-    usePersonalityForm();
+  const { finalResults, loading } = usePersonalityForm();
+  const [location, setLocation] = useLocation();
+
+  useEffect(() => {
+    if (!loading && !finalResults) {
+      setLocation("/");
+    }
+  }, [finalResults, loading]);
+
+  if (loading) {
+    return <Spinner />;
+  }
   return (
     <Flex
       direction="column"
@@ -12,20 +24,24 @@ const Results = () => {
       justifyContent="center"
     >
       <Heading size="md" color="brand.500" textAlign="center" mb="10">
-        You are a typical:
+        {finalResults?.title}
       </Heading>
       <Flex
         bg="brand.200"
         direction="column"
         flex="1"
-        w="80%"
         p="5"
         alignItems="center"
       >
-        <Heading size="lg" color="brand.600" textAlign="center" mb="10">
-          {finalResults}
-        </Heading>
+        <Text fontSize="lg" color="brand.600" textAlign="center" mb="10">
+          {finalResults?.description}
+        </Text>
       </Flex>
+      <Link href="/">
+        <Button mt="4em" width="100%">
+          Back to Home page
+        </Button>
+      </Link>
     </Flex>
   );
 };

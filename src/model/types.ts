@@ -3,9 +3,18 @@ export interface Question {
   answers: string[];
 }
 
-export interface ApiResults {
-  numQuestions: number;
+export interface ResultType {
+  title: string;
+  description: string;
+}
+
+export interface ResultTypes {
+  [key: string]: ResultType;
+}
+
+export interface DataType {
   questions: Question[];
+  results: ResultTypes;
 }
 
 export interface FormValues {

@@ -4,19 +4,22 @@ import {
   Flex,
   Container,
   Heading,
+  IconButton,
 } from "@chakra-ui/react";
-import { Route } from "wouter";
+import { FaHome } from "react-icons/fa";
+import { Route, Link, useLocation } from "wouter";
 import Logo from "./components/Logo";
-import { ProvideFormData } from "./model/hooks";
+import { FormDataProvider } from "./model/context";
 import Form from "./pages/Form";
 import Home from "./pages/Home";
 import Results from "./pages/Results";
 import theme from "./theme";
 
 export const App = () => {
+  const [location, setLocation] = useLocation();
   return (
     <ChakraProvider resetCSS theme={theme}>
-      <ProvideFormData>
+      <FormDataProvider>
         <Container
           display="flex"
           maxW="full"
@@ -31,12 +34,24 @@ export const App = () => {
             w="100%"
             align="flex-start"
             h="78px"
-            p="10px 20px"
+            p="10px 40px"
             justifyContent="space-between"
             alignItems="center"
             bg="brand.500"
           >
-            <Logo />
+            <Link href="/">
+              <a>
+                <Logo />
+              </a>
+            </Link>
+            <IconButton
+              size="md"
+              color="white"
+              fontSize="2em"
+              aria-label="home"
+              onClick={() => setLocation("/")}
+              icon={<FaHome />}
+            />
           </Flex>
           <Flex
             direction="column"
@@ -65,12 +80,12 @@ export const App = () => {
               <Route path="/questions" component={Form} />
               <Route path="/results" component={Results} />
             </Flex>
-            <Text color="brand.500" p="2em">
-              Copyright João Santos 2022
+            <Text color="brand.500" p="2em" alignSelf="flex-start">
+              made by João Santos 2022
             </Text>
           </Flex>
         </Container>
-      </ProvideFormData>
+      </FormDataProvider>
     </ChakraProvider>
   );
 };
