@@ -6,7 +6,7 @@ interface Props {
 
 function Logo({ onClick }: Props) {
   return (
-    <Container cursor="pointer" p="0">
+    <Container cursor="pointer" p="0" m="0">
       <div onClick={onClick}>
         <svg
           width="156"

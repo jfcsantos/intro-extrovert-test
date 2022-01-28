@@ -70,7 +70,7 @@ const useFormData = () => {
   };
 };
 
-export interface FormType {
+interface FormType {
   questions?: Question[];
   numQuestions: number;
   answers: FormValues | null;
@@ -83,12 +83,12 @@ type ProviderProps = {
   children: React.ReactNode;
 };
 
-export const FormContext = createContext<FormType>({
+const FormContext = createContext<FormType>({
   questions: [],
   numQuestions: 0,
   answers: [],
   loading: false,
-  submitAnswers: ({}) => {},
+  submitAnswers: () => {},
 });
 
 export const FormDataProvider = ({ children }: ProviderProps) => {
