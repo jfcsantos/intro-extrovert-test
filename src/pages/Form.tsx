@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useState } from "react";
+import { useEffect, useState } from "react";
 import { Container, Flex, Heading, Spinner } from "@chakra-ui/react";
 import { usePersonalityForm } from "../model/context";
 import { FormValues } from "../model/types";

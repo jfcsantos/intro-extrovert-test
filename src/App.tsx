@@ -40,9 +40,7 @@ export const App = () => {
             bg="brand.500"
           >
             <Link href="/">
-              <a>
-                <Logo />
-              </a>
+              <Logo onClick={() => setLocation("/")} />
             </Link>
             <IconButton
               size="md"
@@ -62,24 +60,27 @@ export const App = () => {
             flex="1"
             alignItems="center"
           >
-            <Heading color="brand.500" size="xl" mt="10">
-              What type of person are you?
-            </Heading>
-            <Flex
-              m="4em auto auto"
-              p="10"
-              bg="brand.100"
-              boxShadow="xl"
-              borderRadius="20"
-              minHeight="20em"
-              maxW="40em"
-              w="100%"
-              justifyContent="center"
-            >
-              <Route path="/" component={Home} />
-              <Route path="/questions" component={Form} />
-              <Route path="/results" component={Results} />
+            <Flex direction="column" p="10" flex="1">
+              <Heading color="brand.500" size="xl" mt="10">
+                What type of person are you?
+              </Heading>
+              <Flex
+                m="4em auto auto"
+                p="10"
+                bg="brand.100"
+                boxShadow="xl"
+                borderRadius="20"
+                minHeight="20em"
+                maxW="40em"
+                w="100%"
+                justifyContent="center"
+              >
+                <Route path="/" component={Home} />
+                <Route path="/questions" component={Form} />
+                <Route path="/results" component={Results} />
+              </Flex>
             </Flex>
+
             <Text color="brand.500" p="2em" alignSelf="flex-start">
               made by João Santos 2022
             </Text>
